@@ -8,17 +8,7 @@
   Author URI: http://blogs.middlebury.edu/imcbride
   
   Copyright &copy; 2009, The President and Fellows of Middlebury College
-  License: http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
-  
-  
-  *** Change log ***
-  
-  Updated: 2009-02-05 (Brendan Smith) Added code to set video dimensions to global variables set in
-  the wordpress template. Makes video fill page in the regular single page view of Middtube.
-
-  Updated: 2009-02-27 (Adam Franco) Added support for writing <enclosure/> tags to the RSS feeds
-  in order to support podcasting.
-  
+  License: http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)  
   
 */
 
