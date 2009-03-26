@@ -1,0 +1,8 @@
+<?php
+
+define('MIDDMEDIA_SOAP_WSDL', 'https://middmedia.example.edu/middmedia.wsdl.php');
+define('MIDDMEDIA_SOAP_KEY', 'abcdefghijklmnopqrstuvwxyz');
+
+define('MIDDMEDIA_REGEXP', '/\[(?:middmedia|middtube) ([[:print:]]+)\]/');
+
+?>
