@@ -10,8 +10,16 @@
   This program is not free software.
   &copy; The President and Fellows of Middlebury College. All Rights Reserved.
   
-  Updated: 2/5/09 Brendan Smith. Added code to set video dimensions to global variables set in
+  
+  *** Change log ***
+  
+  Updated: 2009-02-05 (Brendan Smith) Added code to set video dimensions to global variables set in
   the wordpress template. Makes video fill page in the regular single page view of Middtube.
+
+  Updated: 2009-02-27 (Adam Franco) Added support for writing <enclosure/> tags to the RSS feeds
+  in order to support podcasting.
+  
+  
 */
 
 // pre 2.6 compatibility
@@ -533,6 +541,33 @@ function middmedia_plugin_callback($match)
      . $output . "</div>";
   }
 
+  // Enclosure support.
+  // Added by Adam Franco on 2009-02-27
+  // 
+  // We will store the data for the MiddMedia files in the post in a global array that
+  // we will reference later when rendering the RSS feed via our 'rss2_item' action hook
+  // that calls our middmedia_add_enclosures() function.
+  //
+  // The other way to accomplish this result would be to add a custom field to the post
+  // called 'enclosure' (that contains this data) at the time the post is saved. The downside
+  // of that approach however is that updates to the media (such as URL or size changes)
+  // would not be automatically passed through to the feed. This approach keeps that data
+  // out of the WordPress database.
+  if (!isset($GLOBALS['middmedia_enclosures']))
+    $GLOBALS['middmedia_enclosures'] = array();
+
+  $post = get_post();
+  $post_id = $post->ID;
+  if (!isset($GLOBALS['middmedia_enclosures'][$post_id]))
+    $GLOBALS['middmedia_enclosures'][$post_id] = array();
+
+  $GLOBALS['middmedia_enclosures'][$post_id][$media['name']] = array (
+      'url'    => $media['httpurl'],
+      'length' => intval($media['size']),
+      'type'   => $media['mimetype']
+    );
+  // -- END Enclosure support --
+
   return $output;
 }
 
@@ -545,8 +580,24 @@ function middmedia_plugin($content)
   return (preg_replace_callback(MIDDMEDIA_REGEXP, 'middmedia_plugin_callback', $content));
 }
 
+/**
+ * Print out an enclosure tag for each of our MiddMedia files.
+ * Added for enclosure support.
+ *
+ * @since 2009-02-27 
+ */
+function middmedia_add_enclosures($post_id) {
+  $enclosures = $GLOBALS['middmedia_enclosures'][get_post()->ID];
+  foreach ($enclosures as $name => $data) {
+  	print "\n\t\t<enclosure url=\"".$data['url']."\" length=\"".$data['length']."\" type=\"".$data['type']."\" />";
+  }
+  if (count($enclosures))
+    print "\n";
+}
+
 add_filter('the_content', 'middmedia_plugin');
 add_filter('the_content_rss', 'middmedia_plugin');
 add_filter('comment_text', 'middmedia_plugin');
+add_action('rss2_item', 'middmedia_add_enclosures');  // Added for enclosure support.
 
-?>
+
