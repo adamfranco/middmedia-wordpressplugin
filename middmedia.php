@@ -1,14 +1,14 @@
 <?php
 /*
   Plugin Name: MiddMedia
-  Plugin URI: http://blogs.middlebury.edu
+  Plugin URI: https://www.assembla.com/wiki/show/MiddMedia/WordPress_Plugin
   Description: Manage and use content from your MiddMedia account
   Version: 1.0
   Author: Ian McBride
   Author URI: http://blogs.middlebury.edu/imcbride
   
-  This program is not free software.
-  &copy; The President and Fellows of Middlebury College. All Rights Reserved.
+  Copyright &copy; 2009, The President and Fellows of Middlebury College
+  License: http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
   
   
   *** Change log ***
